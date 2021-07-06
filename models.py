@@ -21,7 +21,7 @@ class Groupmembers(models.Model):
         db_table = 'groupmembers'
 
 
-class Groups(models.Model):
+class Groups(models.Model):                                         # не используеся
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=255)
     parentname = models.CharField(db_column='parentName', max_length=255, blank=True, null=True)  # Field name made lowercase.
