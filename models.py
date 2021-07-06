@@ -35,20 +35,6 @@ class Groups(models.Model):
         db_table = 'groups'
 
 
-class Licenseservers(models.Model):
-    name = models.CharField(max_length=100)
-    host = models.CharField(max_length=100, blank=True, null=True)
-    port = models.IntegerField(blank=True, null=True)
-    creation = models.DateTimeField(blank=True, null=True)
-    total_auth = models.IntegerField(blank=True, null=True)
-    total_cons = models.IntegerField(blank=True, null=True)
-    site = models.CharField(max_length=45, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'licenseservers'
-
-
 class Tcgroups(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=255)
