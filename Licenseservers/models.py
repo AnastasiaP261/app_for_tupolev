@@ -15,3 +15,4 @@ class Licenseservers(models.Model):
         verbose_name_plural = 'Лицензии'
         managed = False
         db_table = 'licenseservers'
+

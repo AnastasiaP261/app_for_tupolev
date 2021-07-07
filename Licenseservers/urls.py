@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import ViewLicenses
+from .views import *
 
 urlpatterns = [
     path('view_licence/', ViewLicenses.as_view(), name='view_licenses'),
