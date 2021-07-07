@@ -15,7 +15,6 @@ class ViewLicenses(ListView):
 
     def get_queryset(self):
         req = self.request.GET
-        print(req)
         if len(req) == 0 or req['flexRadioDefault'] == 'all':
             return Licenseservers.objects.all()
         else:

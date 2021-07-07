@@ -17,9 +17,8 @@
 
 <div class="container-fluid">
     <div class="container-lg">
-    <br>
-    <br>
-    <br>
+        {% block return %}<a href="{% url 'menu' %}"><--Вернуться</a>{% endblock %}
+        <br><br><br>
         {% block body %}{% endblock %}
     </div>
 </div>
