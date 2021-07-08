@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',    'django.contrib.messages',
     'django.contrib.staticfiles',
     'Licenseservers.apps.LicenseserversConfig',
+    'Users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +58,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'templates'),
             os.path.join(BASE_DIR, 'my_app/templates/my_app'),
             os.path.join(BASE_DIR, 'Licenseservers/templates/Licenseservers'),
+            os.path.join(BASE_DIR, 'Licenseservers/templates/Users'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
