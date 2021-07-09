@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Просмотр свободных лицензий{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h2>
+                Фильтры:
+            </h2>
+        </div>
+        <div class="col-sm-3" style="background-color: rgb(242, 242, 242)">
+            <h6>
+                Примененные фильтры:
+            </h6>
+            <ul>
+                {% if select_site != 'on' and select_site != 'all' %}
+                    <li>Сайты: {{ select_site }}</li>
+                {% endif %}
+                {% if select_lic_name != 'on' and select_lic_name != 'all' %}
+                    <li>Сайты: {{ select_lic_name }}</li>
+                {% endif %}
+            </ul>
+
+        </div>
+    </div><br>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <form action="{% url 'view_free_licenses' %}" method="get">
+
+                <h4>Сайты:</h4>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault1" id="all" value="all">
+                    <label class="form-check-label">
+                        Все
+                    </label>
+                </div>
+
+                {% for site in sites %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault1" id="{{ site }}"
+                               value="{{ site }}">
+                        <label class="form-check-label">
+                            {{ site }}
+                        </label>
+                    </div>
+                {% endfor %}
+                <br>
+
+
+                <h4>Лицензии:</h4>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault2" id="all" value="all">
+                    <label class="form-check-label">
+                        Все
+                    </label>
+                </div>
+
+                {% for name in lic_names %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault2" id="{{ name }}"
+                               value="{{ name }}">
+                        <label class="form-check-label">
+                            {{ name }}
+                        </label>
+                    </div>
+                {% endfor %}
+                <br>
+                <button type="submit" class="btn btn-primary btn-block">Добавить</button>
+            </form>
+        </div>
+
+        <div class="col">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">САЙТ</th>
+                    <th scope="col">НАЗВАНИЕ ЛИЦЕНЗИИ</th>
+                    <th scope="col">СВОБОДНЫЕ АВТОРЫ</th>
+                    <th scope="col">СВОБОДНЫЕ КОНСЬЮМЕРЫ</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for item in object_list %}
+                    <tr>
+                        <td>{{ item.site }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.difference_author }}</td>
+                        <td>{{ item.difference_consumer }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
