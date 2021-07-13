@@ -16,24 +16,17 @@
             <h3>Показать:</h3>
 
             <form action="{% url 'view_licenses' %}" method="get">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="all" value="all">
-                    <label class="form-check-label">
-                        Все
-                    </label>
-                </div>
+                <ul>
+                    <li>
+                        <a href="{% url 'view_licenses' %}?select_menu=all" style="text-decoration: none">Все</a>
+                    </li>
 
-                {% for site in sites %}
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="{{ site }}"
-                               value="{{ site }}">
-                        <label class="form-check-label">
-                            {{ site }}
-                        </label>
-                    </div>
-                {% endfor %}
-                <br>
-                <button type="submit" class="btn btn-primary btn-block">Добавить</button>
+                    {% for site in sites %}
+                        <li>
+                            <a href="{% url 'view_licenses' %}?select_menu={{ site }}" style="text-decoration: none">{{ site }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
             </form>
         </div>
         <div class="col">

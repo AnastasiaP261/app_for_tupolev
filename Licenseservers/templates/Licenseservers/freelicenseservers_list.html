@@ -18,7 +18,7 @@
                     <li>Сайты: {{ select_site }}</li>
                 {% endif %}
                 {% if select_lic_name != 'on' and select_lic_name != 'all' %}
-                    <li>Сайты: {{ select_lic_name }}</li>
+                    <li>Лицензии: {{ select_lic_name }}</li>
                 {% endif %}
             </ul>
 
@@ -29,45 +29,25 @@
         <div class="col-sm-3">
             <form action="{% url 'view_free_licenses' %}" method="get">
 
-                <h4>Сайты:</h4>
+                <h5>Сайты:</h5>
 
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault1" id="all" value="all">
-                    <label class="form-check-label">
-                        Все
-                    </label>
-                </div>
-
-                {% for site in sites %}
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault1" id="{{ site }}"
-                               value="{{ site }}">
-                        <label class="form-check-label">
-                            {{ site }}
-                        </label>
-                    </div>
-                {% endfor %}
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="select_menu1"
+                        tabindex="1">
+                    <option value="all">Все</option>
+                    {% for site in sites %}
+                        <option value="{{ site }}">{{ site }}</option>
+                    {% endfor %}
+                </select>
                 <br>
 
+                <h5>Лицензии:</h5>
 
-                <h4>Лицензии:</h4>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault2" id="all" value="all">
-                    <label class="form-check-label">
-                        Все
-                    </label>
-                </div>
-
-                {% for name in lic_names %}
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault2" id="{{ name }}"
-                               value="{{ name }}">
-                        <label class="form-check-label">
-                            {{ name }}
-                        </label>
-                    </div>
-                {% endfor %}
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="select_menu2">
+                    <option value="all">Все</option>
+                    {% for name in lic_names %}
+                        <option value="{{ name }}">{{ name }}</option>
+                    {% endfor %}
+                </select>
                 <br>
                 <button type="submit" class="btn btn-primary btn-block">Добавить</button>
             </form>
