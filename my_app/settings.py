@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-&d!7rkr!@evbyzp-#i1)#mlq93^ihuh3g47(p+ml5$_97$k!x='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -33,7 +33,8 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',    'django.contrib.messages',
+    'django.contrib.sessions',
+    'django.contrib.messages',
     'django.contrib.staticfiles',
     'Licenseservers.apps.LicenseserversConfig',
     'Users.apps.UsersConfig',
@@ -58,7 +59,6 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'templates'),
             os.path.join(BASE_DIR, 'my_app/templates/my_app'),
             os.path.join(BASE_DIR, 'Licenseservers/templates/Licenseservers'),
-            os.path.join(BASE_DIR, 'Licenseservers/templates/Users'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
