@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+.menu_point{
+    text-decoration: none;
+}
+
+.menu_point:hover{
+    text-decoration: underline;
+}

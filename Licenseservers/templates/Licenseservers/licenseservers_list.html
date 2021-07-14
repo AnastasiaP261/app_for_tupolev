@@ -13,17 +13,25 @@
             {% endif %}
         </h2><br><br><br>
         <div class="col-sm-2">
+
+            <script type="text/python">
+
+            </script>
+            <input id="zone">
+            <button id="echo">click !</button>
+
+
             <h3>Показать:</h3>
 
             <form action="{% url 'view_licenses' %}" method="get">
                 <ul>
                     <li>
-                        <a href="{% url 'view_licenses' %}?select_menu=all" style="text-decoration: none">Все</a>
+                        <a href="{% url 'view_licenses' %}?select_menu=all" class="menu_point">Все</a>
                     </li>
 
                     {% for site in sites %}
                         <li>
-                            <a href="{% url 'view_licenses' %}?select_menu={{ site }}" style="text-decoration: none">{{ site }}</a>
+                            <a href="{% url 'view_licenses' %}?select_menu={{ site }}" class="menu_point">{{ site }}</a>
                         </li>
                     {% endfor %}
                 </ul>

@@ -9,11 +9,16 @@
 
     <!-- Bootstrap CSS -->
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    <!-- Скрипты для поддержки brython -->
+    <script type="text / javascript" src="{% static 'brython/js/brython.js' %}"></script>
+    <script type="text / javascript" src="{% static 'brython/js/brython_stdlib.js' %}"></script>
+
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
 
     <title>{% block title %}title{% endblock %}</title>
 </head>
-<body>
+<body onload="brython(1)">
 
 <div class="container-fluid">
     <div class="container-lg">

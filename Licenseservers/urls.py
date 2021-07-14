@@ -21,3 +21,4 @@ urlpatterns = [
     path('view_licence/', ViewLicenses.as_view(), name='view_licenses'),
     path('view_free_licence/', ViewFreeLicenses.as_view(), name='view_free_licenses'),
 ]
+
