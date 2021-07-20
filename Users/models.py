@@ -1,3 +1,10 @@
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
 
@@ -19,3 +26,18 @@ class Users(models.Model):
         db_table = 'users'
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+
+
+class Groupmembers(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    tcname = models.CharField(db_column='tcName', max_length=150)  # Field name made lowercase.
+    info = models.CharField(max_length=255, blank=True, null=True)
+    group = models.CharField(max_length=255)
+    role = models.CharField(max_length=150)
+    site = models.CharField(max_length=45)
+
+    class Meta:
+        managed = False
+        verbose_name = 'Пользователь группы'
+        verbose_name_plural = 'Пользователи группы'
+        db_table = 'groupmembers'

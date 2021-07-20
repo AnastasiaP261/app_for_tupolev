@@ -8,19 +8,6 @@
 from django.db import models
 
 
-class Groupmembers(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    tcname = models.CharField(db_column='tcName', max_length=150)  # Field name made lowercase.
-    info = models.CharField(max_length=255, blank=True, null=True)
-    group = models.CharField(max_length=255)
-    role = models.CharField(max_length=150)
-    site = models.CharField(max_length=45)
-
-    class Meta:
-        managed = False
-        db_table = 'groupmembers'
-
-
 class Groups(models.Model):                                         # не используеся
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=255)

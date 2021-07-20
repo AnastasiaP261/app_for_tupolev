@@ -7,5 +7,4 @@ class LicensesAdmin(admin.ModelAdmin):
     list_filter = ('site', )
 
 
-
 admin.site.register(Licenseservers, LicensesAdmin)
