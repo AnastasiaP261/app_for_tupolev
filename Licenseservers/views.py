@@ -28,7 +28,10 @@ class ViewFreeLicenses(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['sites'] = Licenseservers.objects.values_list('site', flat=True).distinct()
-        context['lic_names'] = Licenseservers.objects.values_list('name', flat=True).distinct()
+        context['lic_names'] = dict()
+        context['lic_names']['all'] = Licenseservers.objects.values_list('name', flat=True).distinct()
+        for site in context['sites']:
+            context['lic_names'][f'{site}'] = Licenseservers.objects.filter(site=site).values_list('name', flat=True).distinct()
 
         context['select_site'] = self.request.GET['select_menu1'] \
             if 'select_menu1' in self.request.GET else 'all'

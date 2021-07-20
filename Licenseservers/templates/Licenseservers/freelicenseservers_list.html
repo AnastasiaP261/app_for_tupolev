@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Просмотр свободных лицензий{% endblock %}
 
@@ -30,8 +31,9 @@
             <form action="{% url 'view_free_licenses' %}" method="get">
                 <h5>Сайты:</h5>
 
-                <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="select_menu1"
-                        tabindex="1">
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                        name="select_menu1" id="select_menu1"
+                        onchange=set_lic_list()>
                     <option value="all">Все</option>
                     {% for site in sites %}
                         <option value="{{ site }}">{{ site }}</option>
@@ -39,14 +41,62 @@
                 </select>
                 <br>
 
+                <script src="{% static 'js/freelicenseservers_list__for_dropdown_lists.js' %}"></script>
+
                 <h5>Лицензии:</h5>
 
-                <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="select_menu2">
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                        name="select_menu2" id="select_menu2_for_all"
+                        style="display: block">
                     <option value="all">Все</option>
-                    {% for name in lic_names %}
+                    {% for name in lic_names.all %}
                         <option value="{{ name }}">{{ name }}</option>
                     {% endfor %}
                 </select>
+
+
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                        name="select_menu2" id="select_menu2_for_EIS_80"
+                        style="display: none" disabled>
+                    <option value="all">Все</option>
+                    {% for name in lic_names.EIS_80 %}
+                        <option value="{{ name }}">{{ name }}</option>
+                    {% endfor %}
+                </select>
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                        name="select_menu2" id="select_menu2_for_EIS_70"
+                        style="display: none" disabled>
+                    <option value="all">Все</option>
+                    {% for name in lic_names.EIS_70 %}
+                        <option value="{{ name }}">{{ name }}</option>
+                    {% endfor %}
+                </select>
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                        name="select_menu2" id="select_menu2_for_SPP"
+                        style="display: none" disabled>
+                    <option value="all">Все</option>
+                    {% for name in lic_names.SPP %}
+                        <option value="{{ name }}">{{ name }}</option>
+                    {% endfor %}
+                </select>
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                        name="select_menu2" id="select_menu2_for_NSI"
+                        style="display: none" disabled>
+                    <option value="all">Все</option>
+                    {% for name in lic_names.NSI %}
+                        <option value="{{ name }}">{{ name }}</option>
+                    {% endfor %}
+                </select>
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                        name="select_menu2" id="select_menu2_for_Test"
+                        style="display: none" disabled>
+                    <option value="all">Все</option>
+                    {% for name in lic_names.Test %}
+                        <option value="{{ name }}">{{ name }}</option>
+                    {% endfor %}
+                </select>
+
+
                 <br>
                 <button type="submit" class="btn btn-primary btn-block">Добавить</button>
             </form>
