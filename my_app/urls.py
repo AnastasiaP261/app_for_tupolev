@@ -24,6 +24,7 @@ urlpatterns = [
     # path('', menu, name='menu'),
     path('admin/', admin.site.urls),
     path('licenseserver/', include('Licenseservers.urls')),
+    path('users/', include('Users.urls')),
 ]
 
 

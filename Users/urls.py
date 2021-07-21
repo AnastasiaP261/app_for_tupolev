@@ -18,5 +18,5 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-
+    path('view_user_table/', ViewGroupmembers.as_view(), name='view_user_table'),
 ]

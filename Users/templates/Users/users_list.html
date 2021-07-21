@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Просмотр лицензий{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <h2>Показать:</h2> <br><br><br>
+
+        <form action="{% url 'view_user_table' %}" method="get">
+
+            <input class="form-control" type="text" placeholder="Введите имя" aria-label="default input example"
+                   list="names_list" id="fullname_choice" name="fullname_choice">
+            <datalist id="names_list">
+                {% for name in names %}
+                    <option value="{{ name }}"/>
+                {% endfor %}
+            </datalist>
+
+            <br>
+
+            <input class="form-control" type="text" placeholder="Введите teamcenter Id"
+                   aria-label="default input example" list="tcnames_list" id="tcname_choice" name="tcname_choice">
+            <datalist id="tcnames_list">
+                {% for name in tcnames %}
+                    <option value="{{ name }}"/>
+                {% endfor %}
+            </datalist>
+
+            <br>
+            <button type="submit" class="btn btn-primary btn-block">Поиск</button>
+        <br><br>
+        </form>
+
+        {% if table_print %}
+            <table class="table table-striped">
+                <thead>
+                <tr align="center" valign="middle">
+                    <th scope="col">ФИО</th>
+                    <th scope="col">ИМЯ В TEAMCENTER</th>
+                    <th scope="col">ИМЯ В ОС</th>
+                    <th scope="col">ГРУППА</th>
+                    <th scope="col">РОЛЬ</th>
+                    <th scope="col">ПОСЛЕДНИЙ ВХОД</th>
+                    <th scope="col">СЕРВЕР ЛИЦЕНЗИИ</th>
+                    <th scope="col">САЙТ</th>
+                    <th scope="col">СТАТУС</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for item in object_list %}
+                    <tr align="center" valign="middle" {% if item.status == 1 %} class="table-danger" {% endif %}>
+                        <td>{{ item.fullname }}</td>
+                        <td>{{ item.tcname }}</td>
+                        <td>{{ item.osname }}</td>
+                        <td>{{ item.group }}</td>
+                        <td>{{ item.role }}</td>
+                        <td>{{ item.lastlogin }}</td>
+                        <td>{{ item.licserver }}</td>
+                        <td>{{ item.site }}</td>
+                        <td>{{ item.status }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}
+

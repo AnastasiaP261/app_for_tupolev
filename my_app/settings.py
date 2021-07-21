@@ -59,6 +59,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'templates'),
             os.path.join(BASE_DIR, 'my_app/templates/my_app'),
             os.path.join(BASE_DIR, 'Licenseservers/templates/Licenseservers'),
+            os.path.join(BASE_DIR, 'Users/templates/Users'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
