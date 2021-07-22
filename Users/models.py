@@ -41,3 +41,18 @@ class Groupmembers(models.Model):
         verbose_name = 'Пользователь группы'
         verbose_name_plural = 'Пользователи группы'
         db_table = 'groupmembers'
+
+
+class Tcgroups(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    parentname = models.CharField(db_column='parentName', max_length=255, blank=True, null=True)  # Field name made lowercase.
+    description = models.CharField(max_length=255, blank=True, null=True)
+    volume = models.CharField(max_length=100, blank=True, null=True)
+    site = models.CharField(max_length=45)
+    roles = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tcgroups'
+

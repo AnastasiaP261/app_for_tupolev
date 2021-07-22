@@ -37,7 +37,6 @@ class ViewGroupmembers(ListView):
         if req:
             sql_request += '\nWHERE '
             params = []
-            print(self.request.GET)
             if req['fullname_choice'] != '':
                 sql_request += 'fullname=%s'
                 params.append(self.request.GET['fullname_choice'])
@@ -47,8 +46,6 @@ class ViewGroupmembers(ListView):
             if req['tcname_choice'] != '':
                 sql_request += 'us.tcName=%s'
                 params.append(self.request.GET['tcname_choice'])
-
-            print(params)
 
             data = Users.objects.raw(sql_request, params=params)
             return data
