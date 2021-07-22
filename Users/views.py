@@ -1,6 +1,20 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.http import HttpResponse
+from django.views.generic import ListView, TemplateView
 from Users.models import *
+from Licenseservers.models import *
+
+
+class ViewAddingOrders(TemplateView):
+    template_name = 'adding_orders.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['sites'] = Licenseservers.objects.values_list('site', flat=True).distinct()
+        context['lic_servers'] = Licenseservers.objects.values_list('name', flat=True).distinct()
+
+        return context
 
 
 class ViewGroupmembers(ListView):
@@ -11,7 +25,6 @@ class ViewGroupmembers(ListView):
 
         context['names'] = Users.objects.values_list('fullname', flat=True).order_by('fullname').distinct()
         context['tcnames'] = Users.objects.values_list('tcname', flat=True).order_by('tcname').distinct()
-
         context['table_print'] = len(self.request.GET) != 0
 
         return context

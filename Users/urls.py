@@ -19,4 +19,5 @@ from .views import *
 
 urlpatterns = [
     path('view_user_table/', ViewGroupmembers.as_view(), name='view_user_table'),
+    path('adding_orders/', ViewAddingOrders.as_view(), name='adding_orders'),
 ]
