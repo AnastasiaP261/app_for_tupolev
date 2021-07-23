@@ -5,6 +5,7 @@
 
 {% block body %}
     <div align="right" id="choise_options">
+        {% comment %}
         <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off"
                onchange="func_for_options(1)">
         <label class="btn btn-outline-primary" for="option1">Заполнить форму вручную</label>
@@ -12,54 +13,58 @@
         <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off"
                onchange="func_for_options(2)">
         <label class="btn btn-outline-primary" for="option2">Загрузить файл excel</label>
+        {% endcomment %}
+        <a href="{% url 'adding_excel_file' %}" class="btn btn-outline-primary btn-lg" tabindex="-1" role="button">Загрузить
+            файл excel</a>
     </div><br>
 
-    <form action="{% url 'adding_orders' %}" method="get" disabled="disabled">
-        <fieldset disabled="disabled" style="display: none" id="form_to_add_manually" name="form_">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">Номер записки</th>
-                    <th scope="col">ФИО</th>
-                    <th scope="col">Логин в ОС</th>
-                    <th scope="col">Логин в TC</th>
-                    <th scope="col">Пароль в TC</th>
-                    <th scope="col">Группа</th>
-                    <th scope="col">Роль</th>
-                    <th scope="col">Сервер лицензий</th>
-                    <th scope="col">Сайт</th>
-                </tr>
-                </thead>
+    <form action="{% url 'adding_orders' %}" method="get">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Номер записки</th>
+                <th scope="col">ФИО</th>
+                <th scope="col">Логин в ОС</th>
+                <th scope="col">Логин в TC</th>
+                <th scope="col">Пароль в TC</th>
+                <th scope="col">Группа</th>
+                <th scope="col">Роль</th>
+                <th scope="col">Сервер лицензий</th>
+                <th scope="col">Сайт</th>
+            </tr>
+            </thead>
 
+            {% if empty %}
                 <tbody>
                 <tr id="0" name="table_line">
                     <td>
-                        <input type="text" class="form-control" id="request_number" name="hand_form">
+                        <input type="text" class="form-control" id="request_number" name="hand_form0"
+                               autocomplete="off">
                     </td>
                     <td>
-                        <input type="text" class="form-control" id="full_name" name="hand_form"
-                               onchange="os_name_auto_fill(this)">
+                        <input type="text" class="form-control" id="full_name" name="hand_form0"
+                               onchange="os_name_auto_fill(this)" autocomplete="off">
                     </td>
                     <td>
-                        <input type="text" class="form-control" id="os_name" name="hand_form">
-                    </td>
-                    <td>
-                        <input type="text" placeholder="автоматически" class="form-control"
-                               id="tc_name" name="hand_form">
+                        <input type="text" class="form-control" id="os_name" name="hand_form0" autocomplete="off">
                     </td>
                     <td>
                         <input type="text" placeholder="автоматически" class="form-control"
-                               id="tc_pass" name="hand_form">
+                               id="tc_name" name="hand_form0" autocomplete="off">
                     </td>
                     <td>
-                        <input type="text" class="form-control" id="group" name="hand_form">
+                        <input type="text" placeholder="автоматически" class="form-control"
+                               id="tc_pass" name="hand_form0" autocomplete="off">
                     </td>
                     <td>
-                        <input type="text" class="form-control" id="role" name="hand_form">
+                        <input type="text" class="form-control" id="group" name="hand_form0" autocomplete="off">
                     </td>
                     <td>
-                        <input type="text" class="form-control" id="lic_server" name="hand_form" list="lic_list"
-                               placeholder="начните ввод...">
+                        <input type="text" class="form-control" id="role" name="hand_form0" autocomplete="off">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" id="lic_server" name="hand_form0" list="lic_list"
+                               placeholder="начните ввод..." autocomplete="off">
                         <datalist id="lic_list">
                             {% for name in lic_servers %}
                                 <option value="{{ name }}"/>
@@ -67,8 +72,8 @@
                         </datalist>
                     </td>
                     <td>
-                        <input type="text" class="form-control" id="site" name="hand_form" list="site_list"
-                               placeholder="начните ввод...">
+                        <input type="text" class="form-control" id="site" name="hand_form0" list="site_list"
+                               placeholder="начните ввод..." autocomplete="off">
                         <datalist id="site_list">
                             {% for name in sites %}
                                 <option value="{{ name }}"/>
@@ -76,13 +81,70 @@
                         </datalist>
                     </td>
                 </tr>
-
                 </tbody>
-            </table>
+            {% else %}
+                <tbody>
+                {% for line in table %}
+                <tr id="{{ forloop.counter0 }}" name="table_line">
+                    <td>
+                        <input type="text" class="form-control" id="request_number"
+                               name="hand_form{{ forloop.counter0 }}"
+                               value="{{ line.req_num }}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" id="full_name" name="hand_form{{ forloop.counter0 }}"
+                               onchange="os_name_auto_fill(this)"
+                               value="{{ line.full_name }}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" id="os_name" name="hand_form{{ forloop.counter0 }}"
+                               value="{{ line.os_name }}">
+                    </td>
+                    <td>
+                        <input type="text" placeholder="автоматически" class="form-control"
+                               id="tc_name" name="hand_form{{ forloop.counter0 }}"
+                               value="{{ line.tc_name }}">
+                    </td>
+                    <td>
+                        <input type="text" placeholder="автоматически" class="form-control"
+                               id="tc_pass" name="hand_form{{ forloop.counter0 }}"
+                               value="{{ line.tc_pass }}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" id="group" name="hand_form{{ forloop.counter0 }}"
+                               value="{{ line.group }}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" id="role" name="hand_form{{ forloop.counter0 }}"
+                               value="{{ line.role }}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" id="lic_server" name="hand_form{{ forloop.counter0 }}"
+                               list="lic_list" placeholder="начните ввод..."
+                               value="{{ line.lic_server }}">
+                        <datalist id="lic_list">
+                            {% for name in lic_servers %}
+                                <option value="{{ name }}"/>
+                            {% endfor %}
+                        </datalist>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" id="site" name="hand_form{{ forloop.counter0 }}"
+                               list="site_list" placeholder="начните ввод..."
+                               value="{{ line.site }}">
+                        <datalist id="site_list">
+                            {% for name in sites %}
+                                <option value="{{ name }}"/>
+                            {% endfor %}
+                        </datalist>
+                    </td>
+                </tr>
+                </tbody>
+            {% endif %}
+        </table>
 
-            <button type="submit" class="btn btn-primary btn-block">Отправить</button>
-            <button type="button" class="btn btn-outline-primary" id="add_line" onclick="add_line_func()">+</button>
-        </fieldset>
+        <button type="submit" class="btn btn-primary btn-block">Отправить</button>
+        <button type="button" class="btn btn-outline-primary" id="add_line" onclick="add_line_func()">+</button>
 
         <fieldset disabled="disabled" style="display: none" id="form_to_add_excel_file" name="form_">
             <div class="mb-3">

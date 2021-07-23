@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Загрузка excel{% endblock %}
+
+{% block return %}<a href="{% url 'adding_orders' %}"><--Вернуться</a>{% endblock %}
+
+{% block body %}
+    <br><br><br><br>
+    <form action="{% url 'adding_excel_file' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.management_form }}
+        {{ form.errors }}
+        {{ form.non_field_errors }}
+        {{ form.non_form_errors }}
+
+        {{ form }}
+        <br>
+        <button type="submit" class="btn btn-primary btn-block">Отправить</button>
+    </form>
+{% endblock %}

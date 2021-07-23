@@ -1,25 +1,25 @@
-function func_for_options(opt) {
-    // информация о том, какая из кнопок выбрана, передается как входной аргумент
-
-    // отключаем все что включено
-    let elems = document.getElementsByName('form_')
-    for (let i = 0; i < elems.length; i++) {
-        elems[i].style.display = 'none'
-        elems[i].setAttribute("disabled", "disabled");
-    }
-
-    // включаем необходимое
-    let form
-    if (opt == 1){
-        form = document.getElementById(`form_to_add_manually`)
-    }
-    else {
-        form = document.getElementById(`form_to_add_excel_file`)
-    }
-
-    form.style.display = 'block'
-    form.removeAttribute('disabled')
-}
+// function func_for_options(opt) {
+//     // информация о том, какая из кнопок выбрана, передается как входной аргумент
+//
+//     // отключаем все что включено
+//     let elems = document.getElementsByName('form_')
+//     for (let i = 0; i < elems.length; i++) {
+//         elems[i].style.display = 'none'
+//         elems[i].setAttribute("disabled", "disabled");
+//     }
+//
+//     // включаем необходимое
+//     let form
+//     if (opt == 1){
+//         form = document.getElementById(`form_to_add_manually`)
+//     }
+//     else {
+//         form = document.getElementById(`form_to_add_excel_file`)
+//     }
+//
+//     form.style.display = 'block'
+//     form.removeAttribute('disabled')
+// }
 
 function toTranslit(text) {
         return text.replace(/([а-яё])|([\s_-])|([^a-z\d])/gi,
@@ -111,7 +111,6 @@ function add_line_func() {
                         </datalist>
                     </td>
                 </tr>`
-
 
     last_line.insertAdjacentHTML("afterend", new_table_line);
 }
