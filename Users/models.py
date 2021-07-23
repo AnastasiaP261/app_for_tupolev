@@ -55,4 +55,6 @@ class Tcgroups(models.Model):
     class Meta:
         managed = False
         db_table = 'tcgroups'
+        verbose_name = 'Группа'
+        verbose_name_plural = 'Группы'
 

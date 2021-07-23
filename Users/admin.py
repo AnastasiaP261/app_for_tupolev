@@ -14,8 +14,15 @@ class GroupmembersAdmin(admin.ModelAdmin):
     list_filter = ('site', 'group', )
 
 
+class TcgroupsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'parentname', 'description', 'volume', 'site', 'roles')
+    list_filter = ('site', )
+    search_fields = ('name', 'parentname')
+
+
 admin.site.register(Groupmembers, GroupmembersAdmin)
 admin.site.register(Users, UsersAdmin)
+admin.site.register(Tcgroups, TcgroupsAdmin)
 
 
 
