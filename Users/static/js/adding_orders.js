@@ -69,7 +69,7 @@ function add_line_func() {
 
     let new_table_line = `<tr id="${Number(last_line.id) + 1}" name="table_line">
                     <td>
-                        <input type="text" class="form-control" id="request_number" name="hand_form${Number(last_line.id) + 1}">
+                        <input type="text" class="form-control" id="request_number" name="hand_form${Number(last_line.id) + 1}" required>
                     </td>
                     <td>
                         <input type="text" class="form-control" id="full_name" name="hand_form${Number(last_line.id) + 1}"

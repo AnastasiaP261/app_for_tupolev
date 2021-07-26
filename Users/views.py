@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import ListView, TemplateView
 from Users.models import *
 from Licenseservers.models import *
-from .forms import UploadExcelFileForm
+from .forms import *
 import openpyxl
 from random import randint
 from django.core.files.storage import FileSystemStorage
@@ -13,26 +13,35 @@ class ViewAddingOrders(TemplateView):
     template_name = 'adding_orders.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        req = self.request.GET
+        if req:
+            print(req)
+            for key in req:
+                print(key)
+                line = req[key]
+                print(line)
+        else:
+            context = super().get_context_data(**kwargs)
 
-        context['empty'] = self.request.session.get('empty')
-        context['table_data'] = self.request.session.get('table_data')
-        try:
-            del self.request.session['empty']
-            del self.request.session['table_data']
-        except:
-            pass
+            # помещаем данные из сессии в контекстную переменную
+            context['empty'] = self.request.session.get('empty')
+            context['table_data'] = self.request.session.get('table_data')
+            try:
+                # чистим сессию
+                del self.request.session['empty']
+                del self.request.session['table_data']
+            except:
+                pass
 
-        if context['empty'] == None:
-            context['empty'] = True
+            if context['empty'] == None:
+                context['empty'] = True
 
-        print(context['empty'])
-        print(context['table_data'])
+            # вставка полей для подсказок
+            context['sites'] = Licenseservers.objects.values_list('site', flat=True).distinct()
+            context['lic_servers'] = Licenseservers.objects.values_list('name', flat=True).distinct()
+            # context['form'] = TableForm()
 
-        context['sites'] = Licenseservers.objects.values_list('site', flat=True).distinct()
-        context['lic_servers'] = Licenseservers.objects.values_list('name', flat=True).distinct()
-
-        return context
+            return context
 
 
 class ViewGroupmembers(ListView):
@@ -87,19 +96,18 @@ class ViewGroupmembers(ListView):
 
 def upload_excel(request):
     if request.method == 'POST' and request.FILES['file']:
+        # обработка данных полученных из формы
         file = request.FILES['file']
         table_data = handle_uploaded_file(file)
-        request.session['empty'] = False
+
+        # поместим полученные данные из файла в сессию
+        request.session['empty'] = False    # показатель того, что мы передали данные
         request.session['table_data'] = table_data
-        return redirect('adding_orders')
-    # if request.method == 'POST':
-    #     form = UploadExcelFileForm(request.POST, request.FILES)
-    #     if form.is_valid():
-    #         handle_uploaded_file(request.FILES['file'])
-    #         return HttpResponseRedirect('/success/url/')
+        return redirect('adding_orders')    # будет вызван метод get_context_data класса ViewAddingOrders
     else:
+        # вывод самой формы при первом заходе на страницу
         form = UploadExcelFileForm()
-    return render(request, 'adding_excel_file.html', {'form': form, 'empty': True})
+    return render(request, 'adding_excel_file.html', {'form': form})
 
 
 def handle_uploaded_file(f):
@@ -113,7 +121,7 @@ def handle_uploaded_file(f):
         trans_name = transliterate(sheet[(f"B{row}")].value.split(' ')[1][:1]) \
                      + transliterate(sheet[(f"B{row}")].value.split(' ')[0])
         trans_name = trans_name.lower()
-        print(trans_name)
+
         table_data.append({
             'req_num': f'{req_num}',
             'full_name': f'{sheet[(f"B{row}")].value}',

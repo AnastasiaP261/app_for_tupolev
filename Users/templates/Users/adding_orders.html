@@ -18,6 +18,14 @@
             файл excel</a>
     </div><br>
 
+    {% if form.non_field_errors %}
+        <div class="non-field-errors">
+            {% for err in form.non_field_errors %}
+                {{ err.as_text }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <form action="{% url 'adding_orders' %}" method="get">
         <table class="table table-striped">
             <thead>
@@ -39,7 +47,7 @@
                 <tr id="0" name="table_line">
                     <td>
                         <input type="text" class="form-control" id="request_number" name="hand_form0"
-                               autocomplete="off">
+                               autocomplete="off" required>
                     </td>
                     <td>
                         <input type="text" class="form-control" id="full_name" name="hand_form0"
@@ -88,7 +96,7 @@
                 <tr id="{{ forloop.counter0 }}" name="table_line">
                     <td>
                         <input type="text" class="form-control" id="request_number"
-                               name="hand_form{{ forloop.counter0 }}"
+                               name="hand_form{{ forloop.counter0 }}" required
                                value="{{ line.req_num }}">
                     </td>
                     <td>
