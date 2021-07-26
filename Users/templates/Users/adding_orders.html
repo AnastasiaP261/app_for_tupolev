@@ -22,15 +22,15 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col">Номер записки</th>
+                <th scope="col" style="width:8%">Номер записки</th>
                 <th scope="col">ФИО</th>
-                <th scope="col">Логин в ОС</th>
-                <th scope="col">Логин в TC</th>
-                <th scope="col">Пароль в TC</th>
+                <th scope="col" style="width:9%">Логин в ОС</th>
+                <th scope="col" style="width:8%">Логин в TC</th>
+                <th scope="col" style="width:9%">Пароль в TC</th>
                 <th scope="col">Группа</th>
-                <th scope="col">Роль</th>
-                <th scope="col">Сервер лицензий</th>
-                <th scope="col">Сайт</th>
+                <th scope="col" style="width:9%">Роль</th>
+                <th scope="col"  style="width:11%">Сервер лицензий</th>
+                <th scope="col"  style="width:7%">Сайт</th>
             </tr>
             </thead>
 
@@ -84,7 +84,7 @@
                 </tbody>
             {% else %}
                 <tbody>
-                {% for line in table %}
+                {% for line in table_data %}
                 <tr id="{{ forloop.counter0 }}" name="table_line">
                     <td>
                         <input type="text" class="form-control" id="request_number"
@@ -139,6 +139,7 @@
                         </datalist>
                     </td>
                 </tr>
+                {% endfor %}
                 </tbody>
             {% endif %}
         </table>
