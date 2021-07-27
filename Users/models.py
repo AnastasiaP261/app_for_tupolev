@@ -59,3 +59,13 @@ class Tcgroups(models.Model):
         verbose_name_plural = 'Группы'
 
 
+class Logs(models.Model):
+    time_stamp = models.DateTimeField(auto_now_add=True)
+    sd_number = models.CharField(max_length=10)
+    info = models.TextField()
+    action = models.CharField(max_length=50)
+    session_id = models.CharField(max_length=60)
+
+    class Meta:
+        verbose_name = 'Лог'
+        verbose_name_plural = 'Логи'
