@@ -18,6 +18,7 @@
             файл excel</a>
     </div><br>
 
+
     {% if form.non_field_errors %}
         <div class="non-field-errors">
             {% for err in form.non_field_errors %}
@@ -26,8 +27,14 @@
         </div>
     {% endif %}
 
-    <form action="{% url 'adding_orders' %}" method="get">
-        <table class="table table-striped">
+    <form action="{% url 'adding_orders' %}" method="get" id="table_form_set">
+
+        {{ form.management_form }}
+        {{ form.errors }}
+        {{ form.non_field_errors }}
+        {{ form.non_form_errors }}
+
+        <table class="table table-hover">
             <thead>
             <tr>
                 <th scope="col" style="width:8%">Номер записки</th>
@@ -37,10 +44,73 @@
                 <th scope="col" style="width:9%">Пароль в TC</th>
                 <th scope="col">Группа</th>
                 <th scope="col" style="width:9%">Роль</th>
-                <th scope="col"  style="width:11%">Сервер лицензий</th>
-                <th scope="col"  style="width:7%">Сайт</th>
+                <th scope="col" style="width:11%">Сервер лицензий</th>
+                <th scope="col" style="width:7%">Сайт</th>
             </tr>
             </thead>
+
+            <tbody>
+            {% for form in form_set.forms %}
+                <tr name="table_line" id="{{ forloop.counter0 }}">
+                    <td>
+                        {{ form.req_num }}
+                        {{ form.req_num.errors }}
+                    </td>
+                    <td>
+                        {{ form.full_name }}
+                        {{ form.full_name.errors }}
+                    </td>
+                    <td>
+                        {{ form.os_name }}
+                        {{ form.os_name.errors }}
+                    </td>
+                    <td>
+                        {{ form.tc_name }}
+                        {{ form.tc_name.errors }}
+                    </td>
+                    <td>
+                        {{ form.tc_pass }}
+                        {{ form.tc_pass.errors }}
+                    </td>
+                    <td>
+                        {{ form.group }}
+                        {{ form.group.errors }}
+                    </td>
+                    <td>
+                        {{ form.role }}
+                        {{ form.role.errors }}
+                    </td>
+                    <td>
+                        {{ form.lic_server }}
+                        {{ form.lic_server.errors }}
+                    </td>
+                    <td>
+                        {{ form.site }}
+                        {{ form.site.errors }}
+                    </td>
+                </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+        <button type="submit" class="btn btn-primary btn-block">Отправить</button>
+        <button type="button" class="btn btn-outline-primary" id="add_line" onclick="add_line_func()">+</button>
+    </form>
+
+    <datalist id="lic_list">
+        {% for name in lic_servers %}
+            <option value="{{ name }}"/>
+        {% endfor %}
+    </datalist>
+
+    <datalist id="site_list">
+        {% for name in sites %}
+            <option value="{{ name }}"/>
+        {% endfor %}
+    </datalist>
+
+    {% comment %}
+
+
 
             {% if empty %}
                 <tbody>
@@ -93,77 +163,68 @@
             {% else %}
                 <tbody>
                 {% for line in table_data %}
-                <tr id="{{ forloop.counter0 }}" name="table_line">
-                    <td>
-                        <input type="text" class="form-control" id="request_number"
-                               name="hand_form{{ forloop.counter0 }}" required
-                               value="{{ line.req_num }}">
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" id="full_name" name="hand_form{{ forloop.counter0 }}"
-                               onchange="os_name_auto_fill(this)"
-                               value="{{ line.full_name }}">
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" id="os_name" name="hand_form{{ forloop.counter0 }}"
-                               value="{{ line.os_name }}">
-                    </td>
-                    <td>
-                        <input type="text" placeholder="автоматически" class="form-control"
-                               id="tc_name" name="hand_form{{ forloop.counter0 }}"
-                               value="{{ line.tc_name }}">
-                    </td>
-                    <td>
-                        <input type="text" placeholder="автоматически" class="form-control"
-                               id="tc_pass" name="hand_form{{ forloop.counter0 }}"
-                               value="{{ line.tc_pass }}">
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" id="group" name="hand_form{{ forloop.counter0 }}"
-                               value="{{ line.group }}">
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" id="role" name="hand_form{{ forloop.counter0 }}"
-                               value="{{ line.role }}">
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" id="lic_server" name="hand_form{{ forloop.counter0 }}"
-                               list="lic_list" placeholder="начните ввод..."
-                               value="{{ line.lic_server }}">
-                        <datalist id="lic_list">
-                            {% for name in lic_servers %}
-                                <option value="{{ name }}"/>
-                            {% endfor %}
-                        </datalist>
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" id="site" name="hand_form{{ forloop.counter0 }}"
-                               list="site_list" placeholder="начните ввод..."
-                               value="{{ line.site }}">
-                        <datalist id="site_list">
-                            {% for name in sites %}
-                                <option value="{{ name }}"/>
-                            {% endfor %}
-                        </datalist>
-                    </td>
-                </tr>
+                    <tr id="{{ forloop.counter0 }}" name="table_line">
+                        <td>
+                            <input type="text" class="form-control" id="request_number"
+                                   name="hand_form{{ forloop.counter0 }}" required
+                                   value="{{ line.req_num }}">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" id="full_name"
+                                   name="hand_form{{ forloop.counter0 }}"
+                                   onchange="os_name_auto_fill(this)"
+                                   value="{{ line.full_name }}">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" id="os_name" name="hand_form{{ forloop.counter0 }}"
+                                   value="{{ line.os_name }}">
+                        </td>
+                        <td>
+                            <input type="text" placeholder="автоматически" class="form-control"
+                                   id="tc_name" name="hand_form{{ forloop.counter0 }}"
+                                   value="{{ line.tc_name }}">
+                        </td>
+                        <td>
+                            <input type="text" placeholder="автоматически" class="form-control"
+                                   id="tc_pass" name="hand_form{{ forloop.counter0 }}"
+                                   value="{{ line.tc_pass }}">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" id="group" name="hand_form{{ forloop.counter0 }}"
+                                   value="{{ line.group }}">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" id="role" name="hand_form{{ forloop.counter0 }}"
+                                   value="{{ line.role }}">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" id="lic_server"
+                                   name="hand_form{{ forloop.counter0 }}"
+                                   list="lic_list" placeholder="начните ввод..."
+                                   value="{{ line.lic_server }}">
+                            <datalist id="lic_list">
+                                {% for name in lic_servers %}
+                                    <option value="{{ name }}"/>
+                                {% endfor %}
+                            </datalist>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" id="site" name="hand_form{{ forloop.counter0 }}"
+                                   list="site_list" placeholder="начните ввод..."
+                                   value="{{ line.site }}">
+                            <datalist id="site_list">
+                                {% for name in sites %}
+                                    <option value="{{ name }}"/>
+                                {% endfor %}
+                            </datalist>
+                        </td>
+                    </tr>
                 {% endfor %}
                 </tbody>
             {% endif %}
         </table>
 
-        <button type="submit" class="btn btn-primary btn-block">Отправить</button>
-        <button type="button" class="btn btn-outline-primary" id="add_line" onclick="add_line_func()">+</button>
-
-        <fieldset disabled="disabled" style="display: none" id="form_to_add_excel_file" name="form_">
-            <div class="mb-3">
-                <label for="formFile" class="form-label">Загрузите excel-файл:</label>
-                <input class="form-control" type="file" id="formFile" name="file_form">
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Отправить</button>
-        </fieldset>
-    </form>
-
+        {% endcomment %}
     <script src="{% static 'js/adding_orders.js' %}"></script>
 {% endblock %}
 

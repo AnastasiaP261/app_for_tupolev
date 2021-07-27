@@ -22,7 +22,7 @@
 // }
 
 function toTranslit(text) {
-        return text.replace(/([а-яё])|([\s_-])|([^a-z\d])/gi,
+    return text.replace(/([а-яё])|([\s_-])|([^a-z\d])/gi,
         function (all, ch, space, words, i) {
             if (space || words) {
                 return space ? ' ' : '';
@@ -37,21 +37,22 @@ function toTranslit(text) {
                 ];
             return t[index];
         });
-    }
+}
 
 function os_name_auto_fill(obj) {
     // получение ФИО из поля ввода
     let word = obj.value.split(' ')
+    let id = obj.parentElement.parentElement.id
 
     // генерация логина для tc
     let new_word_tc = ''
     new_word_tc += toTranslit(word[1].charAt(0))
     new_word_tc += toTranslit(word[0])
-    let line = document.getElementsByName(obj.name)
-    line[3].value = new_word_tc // 'tc_name'
+    let field = document.getElementsByName(`form-${id}-tc_name`)
+    document.getElementsByName(`form-${id}-tc_name`)[0].value = new_word_tc // 'tc_name'
     // генерация пароля для tc
     new_word_tc += Math.floor(Math.random() * 999)
-    line[4].value = new_word_tc // 'tc_pass'
+    document.getElementsByName(`form-${id}-tc_pass`)[0].value = new_word_tc // 'tc_pass'
 
     // генерация логина для ОС
     // let new_word_os = ''
@@ -60,58 +61,57 @@ function os_name_auto_fill(obj) {
     // new_word_os += toTranslit(word[1].charAt(0)).toUpperCase()
     // new_word_os += toTranslit(word[2].charAt(0)).toUpperCase()
     // document.getElementById('os_name').value = new_word_os
-    }
+}
 
 
 function add_line_func() {
     let table = document.getElementsByName('table_line');
     let last_line = table[table.length - 1];
 
-    let new_table_line = `<tr id="${Number(last_line.id) + 1}" name="table_line">
-                    <td>
-                        <input type="text" class="form-control" id="request_number" name="hand_form${Number(last_line.id) + 1}" required>
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" id="full_name" name="hand_form${Number(last_line.id) + 1}"
-                               onchange="os_name_auto_fill(this)">
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" id="os_name" name="hand_form${Number(last_line.id) + 1}">
-                    </td>
-                    <td>
-                        <input type="text" placeholder="автоматически" class="form-control"
-                               id="tc_name" name="hand_form${Number(last_line.id) + 1}">
-                    </td>
-                    <td>
-                        <input type="text" placeholder="автоматически" class="form-control"
-                               id="tc_pass" name="hand_form${Number(last_line.id) + 1}">
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" id="group" name="hand_form${Number(last_line.id) + 1}">
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" id="role" name="hand_form${Number(last_line.id) + 1}">
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" id="lic_server" name="hand_form${Number(last_line.id) + 1}" list="lic_list"
-                               placeholder="начните ввод...">
-                        <datalist id="lic_list">
-                            {% for name in lic_servers %}
-                                <option value="{{ name }}"/>
-                            {% endfor %}
-                        </datalist>
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" id="site" name="hand_form${Number(last_line.id) + 1}" list="site_list"
-                               placeholder="начните ввод...">
-                        <datalist id="site_list">
-                            {% for name in sites %}
-                                <option value="{{ name }}"/>
-                            {% endfor %}
-                        </datalist>
-                    </td>
-                </tr>`
+    let new_table_line = `<tr name="table_line" id="${Number(last_line.id) + 1}">
+                            <td>
+                                <input type="text" name="form-${Number(last_line.id) + 1}-req_num" class="form-control" id="request_number" autocomplete="off" required>
+                            </td>
+                            <td>
+                                <input type="text" name="form-${Number(last_line.id) + 1}-full_name" class="form-control" id="full_name" onchange="os_name_auto_fill(this)" autocomplete="off">
+                            </td>
+                            <td>
+                                <input type="text" name="form-${Number(last_line.id) + 1}-os_name" class="form-control" id="os_name" autocomplete="off">
+                            </td>
+                            <td>
+                                <input type="text" name="form-${Number(last_line.id) + 1}-tc_name" class="form-control" id="tc_name" placeholder="авт." autocomplete="off">
+                            </td>
+                            <td>
+                                <input type="text" name="form-${Number(last_line.id) + 1}-tc_pass" class="form-control" id="tc_pass" autocomplete="off" placeholder="авт.">
+                            </td>
+                            <td>
+                                <input type="text" name="form-${Number(last_line.id) + 1}-group" class="form-control" id="group" autocomplete="off">
+                            </td>
+                            <td>
+                                <input type="text" name="form-${Number(last_line.id) + 1}-role" class="form-control" id="role" autocomplete="off">
+                            </td>
+                            <td>
+                                <input type="text" name="form-${Number(last_line.id) + 1}-lic_server" class="form-control" id="lic_server" autocomplete="off" placeholder="начните ввод..." list="lic_list">
+                            </td>
+                            <td>
+                                <input type="text" name="form-${Number(last_line.id) + 1}-site" class="form-control" id="site" autocomplete="off" placeholder="начните ввод..." list="site_list">
+                            </td>
+                        </tr>
+                        `
 
     last_line.insertAdjacentHTML("afterend", new_table_line);
 }
 
+function readTextFile(file) {
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function () {
+        if (rawFile.readyState === 4) {
+            if (rawFile.status === 200 || rawFile.status == 0) {
+                var allText = rawFile.responseText;
+                alert(allText);
+            }
+        }
+    }
+    rawFile.send(null);
+}

@@ -1,0 +1,48 @@
+<tr name="table_line" id="{{ forloop.counter0 }}">
+    <td>
+        {{ form.req_num }}
+        {{ form.req_num.errors }}
+    </td>
+    <td>
+        {{ form.full_name }}
+        {{ form.full_name.errors }}
+    </td>
+    <td>
+        {{ form.os_name }}
+        {{ form.os_name.errors }}
+    </td>
+    <td>
+        {{ form.tc_name }}
+        {{ form.tc_name.errors }}
+    </td>
+    <td>
+        {{ form.tc_pass }}
+        {{ form.tc_pass.errors }}
+    </td>
+    <td>
+        {{ form.group }}
+        {{ form.group.errors }}
+    </td>
+    <td>
+        {{ form.role }}
+        {{ form.role.errors }}
+    </td>
+    <td>
+        {{ form.lic_server }}
+        {{ form.lic_server.errors }}
+        <datalist id="lic_list">
+            {% for name in lic_servers %}
+                <option value="{{ name }}"/>
+            {% endfor %}
+        </datalist>
+    </td>
+    <td>
+        {{ form.site }}
+        {{ form.site.errors }}
+        <datalist id="site_list">
+            {% for name in sites %}
+                <option value="{{ name }}"/>
+            {% endfor %}
+        </datalist>
+    </td>
+</tr>

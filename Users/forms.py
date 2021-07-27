@@ -2,46 +2,86 @@ from django import forms
 
 
 class UploadExcelFileForm(forms.Form):  # форма загрузки ексель-файла
-    file = forms.FileField(label='Загрузите excel-файл:',
+    file = forms.FileField(required=False,
+                           label='Загрузите excel-файл:',
                            widget=forms.FileInput(attrs={'class': "form-control",
                                                          'type': "file",
                                                          'id': "formFile",
                                                          'name': "file_form"}))
 
-    def clean_file(self):               # валидатор самого файла(не данных в файле!!!)
+    def clean_file(self):  # валидатор самого файла(не данных в файле!!!)
         file = self.cleaned_data['file']
         print(file)
 
 
-# class TableForm(forms.Form):
-#     req_num = forms.CharField(widget=forms.TextInput(attrs={'type': "text",
-#                                                             'class': "form-control",
-#                                                             'id': "request_number"}))
-#     full_name = forms.CharField(widget=forms.TextInput(attrs={'type': "text",
-#                                                             'class': "form-control",
-#                                                             'id': "full_name"}))
-#     os_name = forms.CharField(widget=forms.TextInput(attrs={'type': "text",
-#                                                             'class': "form-control",
-#                                                             'id':"os_name"}))
-#     tc_name = forms.CharField(widget=forms.TextInput(attrs={'type': "text",
-#                                                             'class': "form-control",
-#                                                             'id':"tc_name"}))
-#     tc_pass = forms.CharField(widget=forms.TextInput(attrs={'type': "text",
-#                                                             'class': "form-control",
-#                                                             'id':"tc_pass"}))
-#     group = forms.CharField(widget=forms.TextInput(attrs={'type': "text",
-#                                                             'class': "form-control",
-#                                                             'id':"group"}))
-#     role = forms.CharField(widget=forms.TextInput(attrs={'type': "text",
-#                                                             'class': "form-control",
-#                                                             'id':"role"}))
-#     lic_server = forms.CharField(widget=forms.TextInput(attrs={'type': "text",
-#                                                             'class': "form-control",
-#                                                             'id':"lic_server"}))
-#     site = forms.CharField(widget=forms.TextInput(attrs={'type': "text",
-#                                                             'class': "form-control",
-#                                                             'id':"site"}))
-#
-#     def clean_req_num(self):
-#         num = self.cleaned_data['req_num']
-#         print(num)
+class TableForm(forms.Form):
+    req_num = forms.CharField(required=False,
+                              widget=forms.TextInput(attrs={'type': "text",
+                                                            'class': "form-control",
+                                                            'id': "request_number",
+                                                            'autocomplete': 'off',
+                                                            # 'required': 'required',
+                                                            }))
+    full_name = forms.CharField(required=False,
+                                widget=forms.TextInput(attrs={'type': "text",
+                                                              'class': "form-control",
+                                                              'id': "full_name",
+                                                              'onchange': 'os_name_auto_fill(this)',
+                                                              'autocomplete': 'off',
+                                                              }))
+    os_name = forms.CharField(required=False,
+                              widget=forms.TextInput(attrs={'type': "text",
+                                                            'class': "form-control",
+                                                            'id': "os_name",
+                                                            'autocomplete': 'off',
+                                                            }))
+    tc_name = forms.CharField(required=False,
+                              widget=forms.TextInput(attrs={'type': "text",
+                                                            'class': "form-control",
+                                                            'id': "tc_name",
+                                                            'placeholder': "авт.",
+                                                            'autocomplete': 'off',
+                                                            }))
+    tc_pass = forms.CharField(required=False,
+                              widget=forms.TextInput(attrs={'type': "text",
+                                                            'class': "form-control",
+                                                            'id': "tc_pass",
+                                                            'autocomplete': 'off',
+                                                            'placeholder': "авт.",
+                                                            }))
+    group = forms.CharField(required=False,
+                            widget=forms.TextInput(attrs={'type': "text",
+                                                          'class': "form-control",
+                                                          'id': "group",
+                                                          'autocomplete': 'off',
+                                                          }))
+    role = forms.CharField(required=False,
+                           widget=forms.TextInput(attrs={'type': "text",
+                                                         'class': "form-control",
+                                                         'id': "role",
+                                                         'autocomplete': 'off',
+                                                         }))
+    lic_server = forms.CharField(required=False,
+                                 widget=forms.TextInput(attrs={'type': "text",
+                                                               'class': "form-control",
+                                                               'id': "lic_server",
+                                                               'autocomplete': 'off',
+                                                               'placeholder': "начните ввод...",
+                                                               'list': "lic_list",
+                                                               }))
+    site = forms.CharField(required=False,
+                           widget=forms.TextInput(attrs={'type': "text",
+                                                         'class': "form-control",
+                                                         'id': "site",
+                                                         'autocomplete': 'off',
+                                                         'placeholder': "начните ввод...",
+                                                         'list': "site_list",
+                                                         }))
+
+    def clean_req_num(self):
+        num = self.cleaned_data['req_num']
+        print(num)
+
+
+TableFormSet0 = forms.formset_factory(TableForm, max_num=None, extra=0)
+TableFormSet1 = forms.formset_factory(TableForm, max_num=None, extra=1)

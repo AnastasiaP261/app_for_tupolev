@@ -3,3 +3,6 @@
 manage.spec
 /build/*
 /dist/*
+
+/out_files/*
+/media/*

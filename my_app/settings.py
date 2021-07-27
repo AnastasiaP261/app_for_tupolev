@@ -137,3 +137,5 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+FILE_FOR_PROC_REQUESTS = os.path.join(BASE_DIR, 'out_files/out_file.txt')
