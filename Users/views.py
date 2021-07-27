@@ -8,7 +8,6 @@ import openpyxl
 from random import randint
 from collections import defaultdict
 from django.core.exceptions import ValidationError
-from django.core.files.storage import FileSystemStorage
 from my_app.settings import FILE_FOR_PROC_REQUESTS
 
 
@@ -16,10 +15,8 @@ class ViewAddingOrders(TemplateView):
     template_name = 'adding_orders.html'
 
     def get(self, request, *args, **kwargs):
-        # этот словарь является неизменяемой структурой данных, поэтому возьмем его копию
-        # copy() Возвращает копию объекта. Эта копия будет изменяемой, даже если оригинал не был.
         req = self.request.GET
-        if req:
+        if req:     # эта часть кода сработает, когда мы отправим данные из формы
             # достаем данные
             form_set = TableFormSet0(req).data
             table = defaultdict(list)
@@ -30,44 +27,26 @@ class ViewAddingOrders(TemplateView):
             # валидируем каждую строку
             for key in table:
                 self.validate_data(table[key])
-                # for i, dat in enumerate(table[key]):
-                #     print(table[key][i])
-                    # table[key][i] = dat.encode('ascii')
-
 
             # запись в файл
             # with open(FILE_FOR_PROC_REQUESTS, 'wb', encoding='ascii') as f:
-            with open(FILE_FOR_PROC_REQUESTS, 'w') as f:
+            with open(FILE_FOR_PROC_REQUESTS, 'w', encoding='ansi') as f:
                 for key in table:
                     f.write('|'.join(table[key]))
                     f.write('\n\n')
 
             return redirect('menu')
-
-        else:
-            context = super().get_context_data(**kwargs)
-
+        else:               # эта часть кода сработает чтобы отобразить таблицу в начальном состоянии
             # помещаем данные из сессии в контекстную переменную
-            # context['empty'] = self.request.session.get('empty')
-            # context['table_data'] = self.request.session.get('table_data')
-
             if self.request.session.get('table_data') != None:
                 form_set = TableFormSet0(initial=self.request.session.get('table_data'))
             else:
                 form_set = TableFormSet1()
 
-            # for form in context['form_set']:
-            #     print(form.as_table())
-
-            try:
-                # чистим сессию
-                # del self.request.session['empty']
+            try:            # чистим сессию
                 del self.request.session['table_data']
             except:
                 pass
-
-            # if context['empty'] == None:
-            #     context['empty'] = True
 
             # вставка полей для подсказок
             sites = Licenseservers.objects.values_list('site', flat=True).distinct()
@@ -76,7 +55,7 @@ class ViewAddingOrders(TemplateView):
             return render(request, 'Users/adding_orders.html',
                           {'form_set': form_set, 'sites': sites, 'lic_servers': lic_servers})
 
-    def validate_data(self, data):  # функция для валидации строки таблицы
+    def validate_data(self, data: list):  # функция для валидации строки таблицы
         def valid_req_name(dat):    # валидация номера заявки
             return False
 
@@ -96,6 +75,7 @@ class ViewGroupmembers(ListView):
     model = Users
 
     def get_context_data(self, *args, object_list=None, **kwargs):
+        # кладем все нужное в контекстную переменную
         context = super().get_context_data(**kwargs)
 
         context['names'] = Users.objects.values_list('fullname', flat=True).order_by('fullname').distinct()
@@ -149,8 +129,8 @@ def upload_excel(request):
         table_data = handle_uploaded_file(file)
 
         # поместим полученные данные из файла в сессию
-        # request.session['empty'] = False  # показатель того, что мы передали данные
         request.session['table_data'] = table_data
+
         return redirect('adding_orders')  # будет вызван метод get_context_data класса ViewAddingOrders
     else:
         # вывод самой формы при первом заходе на страницу

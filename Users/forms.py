@@ -20,7 +20,6 @@ class TableForm(forms.Form):
                                                             'class': "form-control",
                                                             'id': "request_number",
                                                             'autocomplete': 'off',
-                                                            # 'required': 'required',
                                                             }))
     full_name = forms.CharField(required=False,
                                 widget=forms.TextInput(attrs={'type': "text",
@@ -85,3 +84,5 @@ class TableForm(forms.Form):
 
 TableFormSet0 = forms.formset_factory(TableForm, max_num=None, extra=0)
 TableFormSet1 = forms.formset_factory(TableForm, max_num=None, extra=1)
+# параметр extra определяет сколько пустых форм будет выведено, в случае с формой предзаполненной из файла нам не нужны
+# пустые формы, а в случае с начальной пустой формой нужна одна
