@@ -21,13 +21,10 @@ class TcgroupsAdmin(admin.ModelAdmin):
 
 
 class LogsAdmin(admin.ModelAdmin):
-    list_display = ('sd_number', 'info', 'action', 'session_id', )
+    list_display = ('pk', 'time_stamp', 'sd_number', 'info', 'action', 'session_id', )
 
 
 admin.site.register(Groupmembers, GroupmembersAdmin)
 admin.site.register(Users, UsersAdmin)
 admin.site.register(Tcgroups, TcgroupsAdmin)
 admin.site.register(Logs, LogsAdmin)
-
-
-
