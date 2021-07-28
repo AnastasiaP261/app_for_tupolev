@@ -33,27 +33,30 @@ class ViewAddingOrders(TemplateView):
             with open(FILE_FOR_PROC_REQUESTS, 'w', encoding='ansi') as f:
                 for key in table:
                     f.write('|'.join(table[key]))
-                    f.write('\n\n')
+                    f.write('\n')
 
             return redirect('menu')
-        else:               # эта часть кода сработает чтобы отобразить таблицу в начальном состоянии
-            # помещаем данные из сессии в контекстную переменную
-            if self.request.session.get('table_data') != None:
-                form_set = TableFormSet0(initial=self.request.session.get('table_data'))
-            else:
-                form_set = TableFormSet1()
+        # эта часть кода сработает чтобы отобразить таблицу в начальном состоянии
+        return render(request, self.template_name, self.get_context_data())
 
-            try:            # чистим сессию
-                del self.request.session['table_data']
-            except:
-                pass
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # помещаем данные из сессии в контекстную переменную
+        if self.request.session.get('table_data') != None:
+            context['form_set'] = TableFormSet0(initial=self.request.session.get('table_data'))
+        else:
+            context['form_set'] = TableFormSet1()
 
-            # вставка полей для подсказок
-            sites = Licenseservers.objects.values_list('site', flat=True).distinct()
-            lic_servers = Licenseservers.objects.values_list('name', flat=True).distinct()
+        try:  # чистим сессию
+            del self.request.session['table_data']
+        except KeyError:
+            pass
 
-            return render(request, 'Users/adding_orders.html',
-                          {'form_set': form_set, 'sites': sites, 'lic_servers': lic_servers})
+        # вставка полей для подсказок
+        context['sites'] = Licenseservers.objects.values_list('site', flat=True).distinct()
+        context['lic_servers'] = Licenseservers.objects.values_list('name', flat=True).distinct()
+
+        return context
 
     def validate_data(self, data: list):  # функция для валидации строки таблицы
         def valid_req_name(dat):    # валидация номера заявки
@@ -67,7 +70,6 @@ class ViewAddingOrders(TemplateView):
 
         if valid_full_name(data[0]):
             raise ValidationError('текст ошибки', code='код ошибки')
-
         # и так далее...
 
 
