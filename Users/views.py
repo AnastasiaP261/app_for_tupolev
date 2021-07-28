@@ -1,15 +1,16 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
-from django.views.generic import ListView, TemplateView
-from Users.models import *
-from Licenseservers.models import *
-from .forms import *
-import openpyxl
-from random import randint
-from collections import defaultdict
-from django.core.exceptions import ValidationError
-from my_app.settings import FILE_FOR_PROC_REQUESTS
 import os
+from collections import defaultdict
+from random import randint
+
+import openpyxl
+from django.core.exceptions import ValidationError
+from django.shortcuts import render, redirect
+from django.views.generic import ListView, TemplateView
+
+from Licenseservers.models import *
+from Users.models import *
+from my_app.settings import FILE_FOR_PROC_REQUESTS
+from .forms import *
 
 
 class ViewAddingOrders(TemplateView):
