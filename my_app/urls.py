@@ -21,7 +21,6 @@ from .views import *
 
 urlpatterns = [
     path('', MenuView.as_view(), name='menu'),
-    # path('', menu, name='menu'),
     path('admin/', admin.site.urls),
     path('licenseserver/', include('Licenseservers.urls')),
     path('users/', include('Users.urls')),

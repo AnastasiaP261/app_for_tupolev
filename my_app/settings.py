@@ -123,9 +123,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [
+STATIC_URL = '/static/'                                 # задает название директории для статик-файлов
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')          # задает куда будут собраны все статик файлы при деплое после команды python manage.py collectstatic
+STATICFILES_DIRS = [                                    # задает в каких папках будет производиться поиск статик файлов (при локальном запуске!!!!)
     os.path.join(BASE_DIR, 'my_app/static'),
     os.path.join(BASE_DIR, 'Licenseservers/static'),
     os.path.join(BASE_DIR, 'Users/static'),
@@ -136,6 +136,6 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')            # задает куда будут собраны все медиа файлы при деплое
 
-FILE_FOR_PROC_REQUESTS = os.path.join(BASE_DIR, 'out_files/out_file.txt')
+FILE_FOR_PROC_REQUESTS = os.path.join(BASE_DIR, 'out_files/out_file.txt')       # выводной файл для запуска утилиты

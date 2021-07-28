@@ -63,14 +63,14 @@ function os_name_auto_fill(obj) {
     // document.getElementById('os_name').value = new_word_os
 }
 
-
+// добавление новой доп строки в таблицу
 function add_line_func() {
     let table = document.getElementsByName('table_line');
     let last_line = table[table.length - 1];
 
     let new_table_line = `<tr name="table_line" id="${Number(last_line.id) + 1}">
                             <td>
-                                <input type="text" name="form-${Number(last_line.id) + 1}-req_num" class="form-control" id="request_number" autocomplete="off" required>
+                                <input type="text" name="form-${Number(last_line.id) + 1}-req_num" class="form-control" id="request_number" autocomplete="off">
                             </td>
                             <td>
                                 <input type="text" name="form-${Number(last_line.id) + 1}-full_name" class="form-control" id="full_name" onchange="os_name_auto_fill(this)" autocomplete="off">
@@ -100,18 +100,4 @@ function add_line_func() {
                         `
 
     last_line.insertAdjacentHTML("afterend", new_table_line);
-}
-
-function readTextFile(file) {
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", file, false);
-    rawFile.onreadystatechange = function () {
-        if (rawFile.readyState === 4) {
-            if (rawFile.status === 200 || rawFile.status == 0) {
-                var allText = rawFile.responseText;
-                alert(allText);
-            }
-        }
-    }
-    rawFile.send(null);
 }
