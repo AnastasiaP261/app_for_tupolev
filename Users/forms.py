@@ -7,11 +7,8 @@ class UploadExcelFileForm(forms.Form):  # форма загрузки ексел
                            widget=forms.FileInput(attrs={'class': "form-control",
                                                          'type': "file",
                                                          'id': "formFile",
-                                                         'name': "file_form"}))
-
-    def clean_file(self):  # валидатор самого файла(не данных в файле!!!)
-        file = self.cleaned_data['file']
-        print(file)
+                                                         'name': "file_form"
+                                                         }))
 
 
 class TableForm(forms.Form):
@@ -76,10 +73,6 @@ class TableForm(forms.Form):
                                                          'placeholder': "начните ввод...",
                                                          'list': "site_list",
                                                          }))
-
-    def clean_req_num(self):
-        num = self.cleaned_data['req_num']
-        print(num)
 
 
 TableFormSet0 = forms.formset_factory(TableForm, max_num=None, extra=0)
