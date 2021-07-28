@@ -9,6 +9,7 @@ from random import randint
 from collections import defaultdict
 from django.core.exceptions import ValidationError
 from my_app.settings import FILE_FOR_PROC_REQUESTS
+import os
 
 
 class ViewAddingOrders(TemplateView):
@@ -16,7 +17,7 @@ class ViewAddingOrders(TemplateView):
 
     def get(self, request, *args, **kwargs):
         req = self.request.GET
-        if req:     # эта часть кода сработает, когда мы отправим данные из формы
+        if req:  # эта часть кода сработает, когда мы отправим данные из формы
             # достаем данные
             form_set = TableFormSet0(req).data
             table = defaultdict(list)
@@ -34,6 +35,17 @@ class ViewAddingOrders(TemplateView):
                 for key in table:
                     f.write('|'.join(table[key]))
                     f.write('\n')
+
+            # запись в логи
+            new_info = ''
+            for key in table:
+                new_info += '|'.join(table[key][1:]) + '\n'
+
+            Logs(info=new_info,
+                 sd_number=table[key][0],
+                 session_id=os.getlogin(),
+                 action='something'
+                 ).save()
 
             return redirect('menu')
         # эта часть кода сработает чтобы отобразить таблицу в начальном состоянии
@@ -59,10 +71,10 @@ class ViewAddingOrders(TemplateView):
         return context
 
     def validate_data(self, data: list):  # функция для валидации строки таблицы
-        def valid_req_name(dat):    # валидация номера заявки
+        def valid_req_name(dat):  # валидация номера заявки
             return False
 
-        def valid_full_name(dat):   # валидация фио
+        def valid_full_name(dat):  # валидация фио
             return False
 
         if valid_req_name(data[1]):
